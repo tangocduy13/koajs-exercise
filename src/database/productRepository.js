@@ -1,4 +1,5 @@
 import fs from "fs";
+import writeToFile from "../helpers/writeToFile";
 const products = require("./products.json");
 
 export function getAll() {
@@ -11,32 +12,21 @@ export function getOne(id) {
 
 export function create(data) {
   const updatedProducts = [data, ...products];
-  return fs.writeFileSync(
-    "./src/database/products.json",
-    JSON.stringify(updatedProducts)
-  );
+  writeToFile(updatedProducts);
 }
 
 export function update(data) {
   const index = products.findIndex((product) => product.id === data.id);
   if (index !== -1) {
     products[index] = data;
-    return fs.writeFileSync(
-      "./src/database/products.json",
-      JSON.stringify(products)
-    );
+    writeToFile(products);
   }
 }
 
 export function remove(id) {
   const index = products.findIndex((product) => product.id === id);
-  console.log(index);
   if (index !== -1) {
     products.splice(index, 1);
-    console.log(products);
-    return fs.writeFileSync(
-      "./src/database/products.json",
-      JSON.stringify(products)
-    );
+    writeToFile(products);
   }
 }
