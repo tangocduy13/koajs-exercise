@@ -8,20 +8,12 @@ import {
 
 export async function getProducts(ctx) {
   try {
-    const products = getAllProducts();
     const { limit, sort } = ctx.request.query;
+    const products = getAllProducts(limit, sort);
 
-    const docs = products
-      .sort((a, b) => {
-        if (sort === "desc")
-          return new Date(b.createdAt) - new Date(a.createdAt);
-        else if (sort === "asc")
-          return new Date(a.createdAt) - new Date(b.createdAt);
-      })
-      .slice(0, parseInt(limit) || products.length);
     ctx.body = {
-      data: docs,
-      count: docs.length,
+      data: products,
+      count: products.length,
     };
   } catch (e) {
     ctx.status = 404;

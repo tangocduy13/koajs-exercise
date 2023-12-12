@@ -2,8 +2,14 @@ import fs from "fs";
 import writeToFile from "../helpers/writeToFile";
 const products = require("./products.json");
 
-export function getAll() {
-  return products;
+export function getAll(limit, sort) {
+  return products
+    .sort((a, b) => {
+      if (sort === "desc") return new Date(b.createdAt) - new Date(a.createdAt);
+      else if (sort === "asc")
+        return new Date(a.createdAt) - new Date(b.createdAt);
+    })
+    .slice(0, parseInt(limit) || products.length);
 }
 
 export function getOne(id) {
