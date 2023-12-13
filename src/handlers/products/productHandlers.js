@@ -29,6 +29,10 @@ export async function getOne(ctx) {
   try {
     const { id } = ctx.request.params;
     const product = getOneProduct(id);
+    if (!product) {
+      ctx.throw(404, "Product Not Found", { data: [], success: false });
+      return;
+    }
     ctx.body = {
       data: product,
     };
