@@ -3,6 +3,7 @@ import writeToFile from "../helpers/writeToFile";
 const products = require("./products.json");
 
 export function getAll(limit, sort) {
+  //todo: chỗ này nếu mà chỉ có 1 trong 2 điều kiện thôi thì sao ? nghiên cứu tách chỗ này ra nhé , hoặc có thể nhiều hơn 2 điều kiện chẳng hạn 
   return products
     .sort((a, b) => {
       if (sort === "desc") return new Date(b.createdAt) - new Date(a.createdAt);
@@ -13,6 +14,7 @@ export function getAll(limit, sort) {
 }
 
 export function getOne(id) {
+  //todo: chỗ này viết cho anh 1 hàm pickFields , để có thể pick những fields cần thiết thôi , tại sau này có thể mình sẽ không pick 1 số field chẳng hạn như token 
   return products.find((product) => product.id === id);
 }
 
