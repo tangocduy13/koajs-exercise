@@ -28,7 +28,9 @@ export async function getProducts(ctx) {
 export async function getOne(ctx) {
   try {
     const { id } = ctx.request.params;
-    const product = getOneProduct(id);
+    const fields = ctx.query.fields;
+
+    const product = getOneProduct(id, fields);
     if (!product) {
       ctx.throw(404, "Product Not Found", { data: [], success: false });
       return;

@@ -18,19 +18,13 @@ export function getAll(limit, sort) {
   return productList;
 }
 
-export function getOne(id) {
+export function getOne(id, fields) {
   //todo: chỗ này viết cho anh 1 hàm pickFields , để có thể pick những fields cần thiết thôi , tại sau này có thể mình sẽ không pick 1 số field chẳng hạn như token
   const product = products.find((product) => product.id === id);
-  return pickByFields(product, [
-    "id",
-    "name",
-    "price",
-    "description",
-    "product",
-    "color",
-    "createdAt",
-    "image",
-  ]);
+  if (fields) {
+    return pickByFields(product, fields.split(","));
+  }
+  return product;
 }
 
 export function create(data) {
