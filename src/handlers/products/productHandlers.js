@@ -1,5 +1,5 @@
 import {
-  getAll as getAllProducts,
+  getList as getListProducts,
   getOne as getOneProduct,
   create as createProduct,
   update as updateProduct,
@@ -9,7 +9,7 @@ import {
 export async function getProducts(ctx) {
   try {
     const { limit, sort } = ctx.request.query;
-    const products = getAllProducts(limit, sort);
+    const products = getListProducts({ limit, sort });
 
     ctx.body = {
       data: products,
@@ -27,10 +27,10 @@ export async function getProducts(ctx) {
 
 export async function getOne(ctx) {
   try {
-    const { id } = ctx.request.params;
+    const id = ctx.params.id;
     const fields = ctx.query.fields;
 
-    const product = getOneProduct(id, fields);
+    const product = getOneProduct({ id, fields });
     if (!product) {
       ctx.throw(404, "Product Not Found", { data: [], success: false });
       return;
@@ -74,7 +74,7 @@ export async function updateOne(ctx) {
       ...data,
     };
     updateProduct(mergeData);
-    ctx.status = 201;
+    ctx.status = 200;
     return (ctx.body = {
       success: true,
     });
@@ -89,9 +89,9 @@ export async function updateOne(ctx) {
 
 export async function removeOne(ctx) {
   try {
-    const { id } = ctx.request.params;
-    removeProduct(id);
-    ctx.status = 201;
+    const id = ctx.params.id;
+    removeProduct({ id });
+    ctx.status = 200;
     return (ctx.body = {
       success: true,
     });
